@@ -14,8 +14,7 @@ const ACTIONS = {
   START_SCENE: 'START_SCENE', // Начало новой сцены
   COMPLETE_CHOICE: 'COMPLETE_CHOICE', // Завершение выбора
   RESET_TO_CAMPFIRE: 'RESET_TO_CAMPFIRE', // Возврат к костру
-  ADVANCE_CAMPFIRE: 'ADVANCE_CAMPFIRE', // Переход к следующему костру
-  COMPLETE_GAME: 'COMPLETE_GAME' // Завершение игры
+  ADVANCE_CAMPFIRE: 'ADVANCE_CAMPFIRE' // Переход к следующему костру
 };
 
 // Редуктор для управления состоянием
@@ -62,11 +61,6 @@ function gameReducer(state, action) {
       return {
         ...initialState,
         campfireIndex: state.campfireIndex + 1
-      };
-    case ACTIONS.COMPLETE_GAME:
-      return {
-        ...state,
-        currentSceneId: null // Завершаем игру
       };
     default:
       return state;

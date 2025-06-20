@@ -6,29 +6,10 @@ export default function Scene({ sceneId }) {
   const { state, dispatch } = useGame();
   const scene = scenes[sceneId];
   
-  // Проверяем, существует ли сцена
-  if (!scene) {
-    console.error(`Сцена с ID "${sceneId}" не найдена`);
-    return (
-      <div className="scene-container">
-        <h2>Ошибка</h2>
-        <p>Сцена не найдена. Возвращаемся к костру...</p>
-        <button onClick={() => dispatch({ type: 'RESET_TO_CAMPFIRE' })}>
-          Вернуться к костру
-        </button>
-      </div>
-    );
-  }
-
   const handleChoice = (choice) => {
     if (!choice.requiredSkill) {
       // Вариант без требований
-      if (choice.nextScene) {
-        dispatch({ type: 'START_SCENE', payload: choice.nextScene });
-      } else {
-        // Конец игры
-        dispatch({ type: 'COMPLETE_GAME' });
-      }
+      dispatch({ type: 'START_SCENE', payload: choice.nextScene });
       return;
     }
     
@@ -38,18 +19,13 @@ export default function Scene({ sceneId }) {
     );
     
     if (suitableCharacter) {
-      if (choice.nextScene) {
-        dispatch({ 
-          type: 'COMPLETE_CHOICE', 
-          payload: { 
-            choice, 
-            characterId: suitableCharacter.id 
-          } 
-        });
-      } else {
-        // Конец игры
-        dispatch({ type: 'COMPLETE_GAME' });
-      }
+      dispatch({ 
+        type: 'COMPLETE_CHOICE', 
+        payload: { 
+          choice, 
+          characterId: suitableCharacter.id 
+        } 
+      });
     } else {
       // Неудача - возврат к костру
       dispatch({ type: 'RESET_TO_CAMPFIRE' });

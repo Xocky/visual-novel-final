@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/visual-novel-final/static/css/main.da063424.css",
+    "main.js": "/visual-novel-final/static/js/main.2c560f7e.js",
+    "index.html": "/visual-novel-final/index.html",
+    "main.da063424.css.map": "/visual-novel-final/static/css/main.da063424.css.map",
+    "main.2c560f7e.js.map": "/visual-novel-final/static/js/main.2c560f7e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.da063424.css",
+    "static/js/main.2c560f7e.js"
+  ]
+}

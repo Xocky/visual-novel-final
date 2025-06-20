@@ -2,7 +2,7 @@
   "name": "visual-novel",
   "version": "1.0.0",
   "main": "electron/main.js",
-  "homepage": "https://Xocky.github.io/visual-novel-final",
+  "homepage": "./",
   "scripts": {
     "start:web": "react-scripts start",
     "build:web": "react-scripts build",

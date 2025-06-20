@@ -26,7 +26,7 @@ export default function Campfire() {
   return (
     <div className="campfire-screen">
       <h2>У костра</h2>
-      <p>Выберите двух спутников для следующего этапа пути:</p>
+      <p>Выберите двух спутников (выбрано: {selectedCharacters.length}/2):</p>
 
       <div className="characters-grid">
         {characters.map(character => (
@@ -42,8 +42,9 @@ export default function Campfire() {
       <button
         onClick={confirmSelection}
         disabled={selectedCharacters.length !== 2}
+        className="confirm-button"
       >
-        Отправиться в путь
+        {selectedCharacters.length === 2 ? "Отправиться в путь!" : "Выберите 2 персонажа"}
       </button>
     </div>
   );

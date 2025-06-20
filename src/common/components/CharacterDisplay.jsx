@@ -16,7 +16,7 @@ export default function CharacterDisplay({ character, isActive, position = 'left
     >
       <div className="character-image">
         <img
-          src={`/images/characters/${character.image}`}
+          src={`${process.env.PUBLIC_URL}/images/characters/${character.image}`}
           alt={character.name}
           style={{ transform: position === 'right' ? 'scaleX(-1)' : 'none' }}
         />

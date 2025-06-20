@@ -17,7 +17,7 @@ export default function EnemyDisplay({ enemy, isActive, position = 'right' }) {
     >
       <div className="enemy-image">
         <img
-          src={`/images/enemies/${enemy.image}`}
+          src={`${process.env.PUBLIC_URL}/images/enemies/${enemy.image}`}
           alt={enemy.name}
           style={{ transform: position === 'left' ? 'scaleX(-1)' : 'none' }}
         />

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start:web": "react-scripts start",
-    "build:web": "CI=false react-scripts build",
+    "build:web": "react-scripts build",
     "test:web": "react-scripts test",
     "eject:web": "react-scripts eject",
     "start:desktop": "electron .",

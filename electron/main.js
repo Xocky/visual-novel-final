@@ -17,8 +17,10 @@ function createWindow() {
     }
   });
 
+  const isDev = process.argv.includes('--dev');
+
   // В режиме разработки всегда загружаем с локального сервера React
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     console.log('[Electron] Loading from dev server: http://localhost:3000');
     win.loadURL('http://localhost:3000');
     // Автоматически открываем инструменты разработчика для отладки
@@ -49,8 +51,12 @@ app.on('activate', () => {
 });
 
 // Глобальный обработчик неперехваченных исключений
-process.on('uncaughtException', (error) => {
-  console.error('[Electron CRASH] Uncaught Exception:', error);
-  // Здесь можно также показать диалоговое окно с ошибкой
-  app.quit(); // Завершаем приложение при критической ошибке
+process.on('uncaughtException', (err) => {
+  console.error('Electron Crash:', err);
+  
+  // Автовосстановление
+  setTimeout(() => {
+    app.relaunch();
+    app.exit(0);
+  }, 1000);
 }); 

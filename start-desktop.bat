@@ -1,9 +1,0 @@
-@echo off
-echo Starting React Dev Server...
-start "React Dev Server" cmd /k "npm run dev:web"
-
-echo Waiting for Dev Server to start...
-timeout /t 10 /nobreak > nul
-
-echo Starting Electron App...
-npm run dev:desktop 

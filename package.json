@@ -10,7 +10,7 @@
     "build:web": "react-scripts build",
     "test:web": "react-scripts test",
     "eject:web": "react-scripts eject",
-    "start:desktop": "electron .",
+    "start:desktop": "cross-env NODE_ENV=development electron .",
     "win-start": "node .\\check-electron.js && npx electron .",
     "build:desktop": "electron-builder"
   },

@@ -78,11 +78,10 @@ export default function Scene() {
         {currentScene.choices?.map((choice, index) => (
           <ChoiceButton 
             key={index}
-            onClick={() => handleChoice(choice)}
+            choice={choice}
+            onSelect={() => handleChoice(choice)}
             disabled={feedback.type !== null}
-          >
-            {choice.text}
-          </ChoiceButton>
+          />
         ))}
       </div>
     </motion.div>

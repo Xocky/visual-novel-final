@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import scenes from '../data/scenes';
-import characters from '../data/characters';
+import { characters } from '../data/characters';
 
 // Создание контекста
 const GameContext = createContext();

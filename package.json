@@ -5,12 +5,13 @@
   "private": true,
   "main": "electron/main.js",
   "scripts": {
-    "start:web": "react-scripts start",
+    "start": "npm-run-all -p start:web start:desktop",
+    "start:web": "cross-env PUBLIC_URL=/ react-scripts start",
     "build:web": "react-scripts build",
     "test:web": "react-scripts test",
     "eject:web": "react-scripts eject",
-    "start:desktop": "electron electron/main.js",
-    "win-start": "node node_modules/electron/cli.js electron/main.js",
+    "start:desktop": "electron .",
+    "win-start": "node .\\check-electron.js && npx electron .",
     "build:desktop": "electron-builder"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "node": ">=18 <21"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "electron": "^36.5.0"
   }
 }

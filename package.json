@@ -9,7 +9,8 @@
     "build:web": "react-scripts build",
     "test:web": "react-scripts test",
     "eject:web": "react-scripts eject",
-    "start:desktop": "npx electron .",
+    "start:desktop": "electron electron/main.js",
+    "win-start": "node node_modules/electron/cli.js electron/main.js",
     "build:desktop": "electron-builder"
   },
   "dependencies": {

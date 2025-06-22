@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import scenes from '../data/scenes';
+import { scenes } from '../data/scenes';
 import { characters } from '../data/characters';
 
 // Создание контекста

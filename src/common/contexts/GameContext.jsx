@@ -5,11 +5,12 @@ import { characters } from '../data/characters';
 // Создание контекста
 const GameContext = createContext();
 
-// Начальное состояние игры
+// Более безопасное начальное состояние игры
 const initialState = {
   sceneId: 'introduction',
   party: [],
-  unlockedCharacters: [characters[0]], // Начинаем с одним разблокированным персонажем
+  // Проверяем, что characters - это массив и он не пустой
+  unlockedCharacters: (Array.isArray(characters) && characters.length > 0) ? [characters[0]] : [],
   isCampfire: true, // Флаг, является ли текущая сцена костром
   campfireIndex: 0, // Индекс текущего костра для прогресс-бара
 };

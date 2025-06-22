@@ -12,12 +12,11 @@ function createWindow() {
     }
   });
 
-  // Для разработки
-  if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:3000');
-  } else {
-    win.loadFile(path.join(__dirname, '../build/index.html'));
-  }
+  // В режиме разработки всегда загружаем с локального сервера React
+  win.loadURL('http://localhost:3000');
+  
+  // Раскомментируйте, если хотите открывать DevTools при старте
+  // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);

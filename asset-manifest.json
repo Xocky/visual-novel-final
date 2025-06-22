@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/visual-novel-final/static/css/main.e27dd106.css",
-    "main.js": "/visual-novel-final/static/js/main.060a41f7.js",
+    "main.js": "/visual-novel-final/static/js/main.a5b02034.js",
     "index.html": "/visual-novel-final/index.html",
     "main.e27dd106.css.map": "/visual-novel-final/static/css/main.e27dd106.css.map",
-    "main.060a41f7.js.map": "/visual-novel-final/static/js/main.060a41f7.js.map"
+    "main.a5b02034.js.map": "/visual-novel-final/static/js/main.a5b02034.js.map"
   },
   "entrypoints": [
     "static/css/main.e27dd106.css",
-    "static/js/main.060a41f7.js"
+    "static/js/main.a5b02034.js"
   ]
 }

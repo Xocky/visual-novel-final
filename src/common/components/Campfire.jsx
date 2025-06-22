@@ -20,7 +20,7 @@ export default function Campfire() {
   const confirmSelection = () => {
     // Формируем команду из выбранных персонажей
     const party = characters.filter(char => selectedCharacters.includes(char.id));
-    dispatch({ type: 'SET_PARTY', payload: party });
+    dispatch({ type: 'START_GAME', payload: party });
   };
 
   return (

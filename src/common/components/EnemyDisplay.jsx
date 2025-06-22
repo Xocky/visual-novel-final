@@ -1,6 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+const getEnemyImgPath = (image) => {
+  if (window?.process?.type) {
+    // Electron
+    return `images/enemies/${image}`;
+  }
+  // Web
+  return `${process.env.PUBLIC_URL}/images/enemies/${image}`;
+};
+
 export default function EnemyDisplay({ enemy, isActive, position = 'right' }) {
   return (
     <motion.div
@@ -17,7 +26,7 @@ export default function EnemyDisplay({ enemy, isActive, position = 'right' }) {
     >
       <div className="enemy-image">
         <img
-          src={`${process.env.PUBLIC_URL}/images/enemies/${enemy.image}`}
+          src={getEnemyImgPath(enemy.image)}
           alt={enemy.name}
           style={{ transform: position === 'left' ? 'scaleX(-1)' : 'none' }}
         />

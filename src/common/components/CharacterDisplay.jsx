@@ -1,6 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+const getCharacterImgPath = (image) => {
+  if (window?.process?.type) {
+    // Electron
+    return `images/characters/${image}`;
+  }
+  // Web
+  return `${process.env.PUBLIC_URL}/images/characters/${image}`;
+};
+
 export default function CharacterDisplay({ character, isActive, position = 'left' }) {
   return (
     <motion.div
@@ -16,7 +25,7 @@ export default function CharacterDisplay({ character, isActive, position = 'left
     >
       <div className="character-image">
         <img
-          src={`${process.env.PUBLIC_URL}/images/characters/${character.image}`}
+          src={getCharacterImgPath(character.image)}
           alt={character.name}
           style={{ transform: position === 'right' ? 'scaleX(-1)' : 'none' }}
         />

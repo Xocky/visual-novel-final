@@ -36,6 +36,15 @@ export default function Scene() {
     }
   };
 
+  const getBackgroundPath = (bg) => {
+    if (window?.process?.type) {
+      // Electron
+      return `images/backgrounds/${bg}`;
+    }
+    // Web
+    return `${process.env.PUBLIC_URL}/images/backgrounds/${bg}`;
+  };
+
   return (
     <motion.div
       className="scene-container"
@@ -43,7 +52,7 @@ export default function Scene() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      style={scene.background ? { backgroundImage: `url(${process.env.PUBLIC_URL}/images/backgrounds/${scene.background})` } : {}}
+      style={scene.background ? { backgroundImage: `url(${getBackgroundPath(scene.background)})` } : {}}
     >
       <div className="scene-description">
         <p>{scene.description}</p>

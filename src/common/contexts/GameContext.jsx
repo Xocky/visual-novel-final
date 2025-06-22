@@ -1,91 +1,96 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import { scenes } from '../data/scenes';
-import { characters } from '../data/characters';
+import scenes from '../data/scenes';
+import characters from '../data/characters';
+
+// Создание контекста
+const GameContext = createContext();
 
 // Начальное состояние игры
 const initialState = {
-  campfireIndex: 0, // индекс текущего костра
-  currentSceneId: null, // id текущей сцены
-  party: [], // выбранные персонажи
-  sceneHistory: [], // история пройденных сцен
-  availableCharacters: [...characters]
+  sceneId: 'introduction',
+  party: [],
+  unlockedCharacters: [characters[0]], // Начинаем с одним разблокированным персонажем
+  isCampfire: true, // Флаг, является ли текущая сцена костром
+  campfireIndex: 0, // Индекс текущего костра для прогресс-бара
 };
 
-// Типы действий
-const ACTIONS = {
-  SET_PARTY: 'SET_PARTY', // Выбор команды у костра
-  START_SCENE: 'START_SCENE', // Начало новой сцены
-  COMPLETE_CHOICE: 'COMPLETE_CHOICE',
-  RESET_TO_CAMPFIRE: 'RESET_TO_CAMPFIRE', // Возврат к костру
-  UNLOCK_CHARACTER: 'UNLOCK_CHARACTER'
-};
-
-// Редуктор для управления состоянием
+// Редьюсер для управления состоянием игры
 function gameReducer(state, action) {
   switch (action.type) {
-    case ACTIONS.SET_PARTY:
+    case 'START_GAME':
       return {
         ...state,
         party: action.payload,
-        currentSceneId: 'goblin_encounter' // Начинаем с первой сцены
+        sceneId: 'goblin_encounter', // Первая сцена после выбора команды
+        isCampfire: false,
       };
-    case ACTIONS.START_SCENE:
-      return {
-        ...state,
-        currentSceneId: action.payload,
-        sceneHistory: [...state.sceneHistory, action.payload]
-      };
-    case ACTIONS.COMPLETE_CHOICE:
-      if (action.payload.reward) {
-        return {
-          ...state,
-          currentSceneId: action.payload.nextScene,
-          availableCharacters: [
-            ...state.availableCharacters,
-            characters.find(c => c.id === action.payload.reward)
-          ].filter((v, i, a) => a.findIndex(t => t.id === v.id) === i)
-        };
+    case 'NEXT_SCENE':
+      const nextScene = scenes[action.payload];
+      const isNextCampfire = nextScene && nextScene.isCampfire;
+      
+      // Разблокировка персонажа, если есть награда
+      let newUnlockedCharacters = state.unlockedCharacters;
+      if (nextScene && nextScene.reward) {
+        const newChar = characters.find(c => c.id === nextScene.reward);
+        if (newChar && !newUnlockedCharacters.some(c => c.id === newChar.id)) {
+            newUnlockedCharacters = [...newUnlockedCharacters, newChar];
+        }
       }
+
       return {
         ...state,
-        currentSceneId: action.payload.nextScene
+        sceneId: action.payload,
+        isCampfire: !!isNextCampfire,
+        campfireIndex: isNextCampfire ? state.campfireIndex + 1 : state.campfireIndex,
+        unlockedCharacters: newUnlockedCharacters,
       };
-    case ACTIONS.RESET_TO_CAMPFIRE:
-      return {
-        ...initialState,
-        campfireIndex: state.campfireIndex,
-        availableCharacters: state.availableCharacters
-      };
-    case ACTIONS.UNLOCK_CHARACTER:
+    case 'RESET_TO_CAMPFIRE':
       return {
         ...state,
-        availableCharacters: [
-          ...state.availableCharacters,
-          characters.find(c => c.id === action.payload)
-        ]
+        sceneId: 'campfire',
+        isCampfire: true,
       };
+    case 'LOAD_SAVE':
+      // Загружаем состояние из сохранения
+      return action.payload;
     default:
       return state;
   }
 }
 
-// Создание контекста
-const GameContext = createContext();
-
-export function GameProvider({ children }) {
+// Провайдер контекста
+export const GameProvider = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, initialState);
-  
+
+  // --- Система сохранений ---
+  const saveGame = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('vn_save', JSON.stringify(state));
+      alert('Игра сохранена!');
+    }
+  };
+
+  const loadGame = () => {
+    if (typeof window !== 'undefined') {
+      const savedGame = localStorage.getItem('vn_save');
+      if (savedGame) {
+        dispatch({ type: 'LOAD_SAVE', payload: JSON.parse(savedGame) });
+        alert('Игра загружена!');
+      } else {
+        alert('Сохранение не найдено.');
+      }
+    }
+  };
+
   return (
-    <GameContext.Provider value={{ state, dispatch }}>
+    <GameContext.Provider value={{ state, dispatch, saveGame, loadGame }}>
       {children}
     </GameContext.Provider>
   );
-}
+};
 
-// Хук для использования контекста
-export function useGame() {
-  return useContext(GameContext);
-}
+// Хук для легкого доступа к контексту
+export const useGame = () => useContext(GameContext);
 
 export function checkSkillRequirement(party, requiredSkill, requiredLevel) {
   return party.some(character => 

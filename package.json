@@ -6,12 +6,14 @@
   "main": "electron/main.js",
   "scripts": {
     "start": "npm-run-all -p start:web start:desktop",
-    "start:web": "cross-env PUBLIC_URL=/ react-scripts start",
+    "start:web": "react-scripts start",
+    "start:desktop": "electron .",
+    "dev:web": "set PUBLIC_URL=/ && react-scripts start",
+    "dev:desktop": "set NODE_ENV=development && electron .",
+    "win-start": "node .\\check-electron.js && npx electron .",
     "build:web": "react-scripts build",
     "test:web": "react-scripts test",
     "eject:web": "react-scripts eject",
-    "start:desktop": "cross-env NODE_ENV=development electron .",
-    "win-start": "node .\\check-electron.js && npx electron .",
     "build:desktop": "electron-builder"
   },
   "dependencies": {

@@ -1,4 +1,9 @@
 @echo off
-set NODE_ENV=development
-echo "Starting Electron for development..."
-start "" "node_modules\\.bin\\electron.cmd" . 
+echo Starting React Dev Server...
+start "React Dev Server" cmd /k "npm run dev:web"
+
+echo Waiting for Dev Server to start...
+timeout /t 10 /nobreak > nul
+
+echo Starting Electron App...
+npm run dev:desktop 

@@ -135,4 +135,34 @@ body {
   border-radius: 10px;
   max-width: 600px;
   margin: 50px auto;
+}
+
+.character, .enemy {
+  transition: transform 0.3s ease;
+}
+.character.active {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px gold);
+}
+.enemy.active {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px red);
+}
+.choice-success {
+  background-color: rgba(46, 204, 113, 0.3);
+  animation: pulse 1s ease;
+}
+.choice-failure {
+  background-color: rgba(231, 76, 60, 0.3);
+  animation: shake 0.5s ease;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 } 

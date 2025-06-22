@@ -11,42 +11,28 @@ import { characters } from '../data/characters';
 export default function Scene() {
   const { state, dispatch } = useGame();
   const scene = scenes[state.currentSceneId];
-  const [activeChoice, setActiveChoice] = useState(null);
-  const [resultMessage, setResultMessage] = useState('');
+  const [selectedChoice, setSelectedChoice] = useState(null);
+  const [choiceResult, setChoiceResult] = useState(null);
 
   if (!scene) return null;
 
   const handleChoice = (choice) => {
-    setActiveChoice(choice.id);
-    if (choice.requiredSkill) {
-      const hasSkill = checkSkillRequirement(
-        state.party,
-        choice.requiredSkill,
-        choice.requiredLevel
-      );
-      if (hasSkill) {
-        setResultMessage(choice.successText);
-        setTimeout(() => {
-          dispatch({
-            type: 'COMPLETE_CHOICE',
-            payload: choice
-          });
-          setActiveChoice(null);
-          setResultMessage('');
-        }, 2000);
-      } else {
-        setResultMessage('Недостаточно навыков! Возвращаемся к костру...');
-        setTimeout(() => {
-          dispatch({ type: 'RESET_TO_CAMPFIRE' });
-          setActiveChoice(null);
-          setResultMessage('');
-        }, 3000);
-      }
+    setSelectedChoice(choice.id);
+    const hasSkill = state.party.some(char => 
+      char.skills[choice.requiredSkill] >= choice.requiredLevel
+    );
+    if (hasSkill || !choice.requiredSkill) {
+      setChoiceResult('success');
+      setTimeout(() => {
+        setChoiceResult(null);
+        dispatch({ type: 'START_SCENE', payload: choice.nextScene });
+      }, 1500);
     } else {
-      dispatch({
-        type: 'COMPLETE_CHOICE',
-        payload: choice
-      });
+      setChoiceResult('failure');
+      setTimeout(() => {
+        setChoiceResult(null);
+        dispatch({ type: 'RESET_TO_CAMPFIRE' });
+      }, 2000);
     }
   };
 
@@ -61,11 +47,6 @@ export default function Scene() {
     >
       <div className="scene-description">
         <p>{scene.description}</p>
-        {resultMessage && (
-          <div className="result-message">
-            {resultMessage}
-          </div>
-        )}
       </div>
       <div className="characters-layout">
         <div className="party-side">
@@ -73,7 +54,7 @@ export default function Scene() {
             <CharacterDisplay
               key={character.id}
               character={character}
-              isActive={activeChoice && character.skills[scenes[state.currentSceneId].choices.find(c => c.id === activeChoice)?.requiredSkill]}
+              isActive={selectedChoice && choiceResult === 'success' && character.skills[scenes[state.currentSceneId].choices.find(c => c.id === selectedChoice)?.requiredSkill]}
               position="left"
             />
           ))}
@@ -93,7 +74,7 @@ export default function Scene() {
             <EnemyDisplay
               key={enemy.id}
               enemy={enemy}
-              isActive={activeChoice === 'fight'}
+              isActive={selectedChoice && choiceResult === 'success' && selectedChoice === 'fight'}
               position="right"
             />
           ))}
@@ -105,7 +86,8 @@ export default function Scene() {
             key={choice.id}
             choice={choice}
             onSelect={() => handleChoice(choice)}
-            disabled={activeChoice !== null}
+            disabled={selectedChoice !== null}
+            result={choiceResult}
           />
         ))}
       </div>

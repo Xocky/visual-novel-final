@@ -88,6 +88,45 @@ export const scenes = {
       }
     ]
   },
+  dark_forest: {
+    id: 'dark_forest',
+    description: "Вы входите в мрачный лес. Ветви деревьев скрипят над головой.",
+    background: '/images/scenes/dark_forest.jpg',
+    choices: [
+      {
+        text: "Исследовать тропу",
+        nextScene: 'forest_path',
+        requiredSkill: "Наблюдательность",
+        requiredLevel: 2
+      },
+      {
+        text: "Разбить лагерь",
+        nextScene: 'campfire_1'
+      }
+    ]
+  },
+  dragon_lair: {
+    id: 'dragon_lair',
+    description: "Перед вами открывается логово древнего дракона!",
+    background: '/images/scenes/dragon_lair.jpg',
+    enemies: [
+      { id: 'dragon', name: "Дракон", image: 'dragon.png' }
+    ],
+    choices: [
+      {
+        text: "Атаковать дракона",
+        requiredSkill: "Бой",
+        requiredLevel: 4,
+        nextScene: 'dragon_fight'
+      },
+      {
+        text: "Попытаться договориться",
+        requiredSkill: "Дипломатия",
+        requiredLevel: 3,
+        nextScene: 'dragon_negotiation'
+      }
+    ]
+  },
   // Добавьте дополнительные сцены по аналогии
 };
 
